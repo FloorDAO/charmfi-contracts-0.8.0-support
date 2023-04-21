@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: Unlicense
 
-pragma solidity 0.7.6;
+pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/math/SafeMath.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@uniswap/v3-core/contracts/interfaces/IUniswapV3Pool.sol";
 import "@uniswap/v3-core/contracts/libraries/TickMath.sol";
 
@@ -168,7 +168,7 @@ contract PassiveStrategy is IStrategy {
         secondsAgo[1] = 0;
 
         (int56[] memory tickCumulatives, ) = pool.observe(secondsAgo);
-        return int24((tickCumulatives[1] - tickCumulatives[0]) / _twapDuration);
+        return int24((tickCumulatives[1] - tickCumulatives[0]) / int56(uint56(_twapDuration)));
     }
 
     /// @dev Rounds tick down towards negative infinity so that it's a multiple
